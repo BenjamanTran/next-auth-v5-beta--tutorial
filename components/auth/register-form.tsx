@@ -1,6 +1,6 @@
 "use client";
 
-import React, { startTransition, useState } from "react";
+import React, { useState } from "react";
 import { CardWrapper } from "./card-wrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -14,12 +14,12 @@ import {
 } from "@/components/ui/form";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { LoginSchema, RegisterSchema } from "@/app/schemas";
+import { RegisterSchema } from "@/app/schemas";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
-import { login } from "@/actions/login";
+import { register } from "@/actions/register";
 
 const RegisterForm = () => {
   const [isPending, strartTransition] = useTransition();
@@ -38,12 +38,12 @@ const RegisterForm = () => {
     setError("");
     setSuccess("");
     strartTransition(() => {
-      login(values).then((data) => {
+      register(values).then((data) => {
         setError(data.error);
         setSuccess(data.success);
       });
     });
-    login(values);
+    register(values);
   };
 
   return (
