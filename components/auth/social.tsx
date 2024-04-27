@@ -6,7 +6,7 @@ import { FaGithub } from "react-icons/fa";
 import { Button } from "../ui/button";
 const Social = () => {
   return (
-    <div className="flex items-center w-full gap-x-2">
+    <div className="flex items-center w-full gap-x-2 px-6">
       <Button
         className="w-full"
         size="lg"
