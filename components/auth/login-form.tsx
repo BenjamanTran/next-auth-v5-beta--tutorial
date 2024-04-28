@@ -38,8 +38,9 @@ const LoginForm = () => {
     setSuccess("");
     strartTransition(() => {
       login(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        if (data?.error) {
+          setError(data.error);
+        }
       });
     });
     login(values);
