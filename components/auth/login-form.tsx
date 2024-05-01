@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { CardWrapper } from "./card-wrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useSearchParams } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -20,11 +21,14 @@ import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { login } from "@/actions/login";
+import { url } from "inspector";
 
 const LoginForm = () => {
   const [isPending, strartTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
+  const searchParams =useSearchParams()
+  const urlError = searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email already in use with different provider!' : "Something wrong!"
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -41,6 +45,8 @@ const LoginForm = () => {
         if (data?.error) {
           setError(data.error);
         }
+        // TODO: add when i add 2fa
+        // setSuccess(data?.success)
       });
     });
     login(values);
@@ -95,7 +101,7 @@ const LoginForm = () => {
                 )}
               ></FormField>
             </div>
-            <FormError message={error} />
+            <FormError message={error || urlError} />
             <FormSuccess message={success} />
             <Button type="submit" disabled={isPending} className="w-full">
               Login
