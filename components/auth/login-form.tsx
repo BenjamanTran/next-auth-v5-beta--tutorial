@@ -21,14 +21,16 @@ import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { login } from "@/actions/login";
-import { url } from "inspector";
 
 const LoginForm = () => {
   const [isPending, strartTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const searchParams =useSearchParams()
-  const urlError = searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email already in use with different provider!' : "Something wrong!"
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with different provider!"
+      : "";
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -45,8 +47,10 @@ const LoginForm = () => {
         if (data?.error) {
           setError(data.error);
         }
-        // TODO: add when i add 2fa
-        // setSuccess(data?.success)
+
+        if (data?.success) {
+          setSuccess(data.success);
+        }
       });
     });
     login(values);
